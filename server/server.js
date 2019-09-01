@@ -4,8 +4,10 @@ var mongoose = require('mongoose');
 var uuid = require('node-uuid');
 require('dotenv').config();
 
-// set up mongodb connection
+// set up mongodb connection and body-parser
 var app = express();
+app.use(express.json()); // to support JSON-encoded bodies
+app.use(express.urlencoded()); // to support URL-encoded bodies
 var mongoDB = process.env.DB_CONN;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
@@ -25,15 +27,17 @@ const units = [
 	'teaspoon',
 	'tablespoon'
 ];
+// define the layout of an ingredient
+const ingredient = { name: String, qty: Number, unit: String };
 
 // Build mongoDB schemas and models
 var recipeSchema = new Schema({
 	name: String,
 	image: { data: Buffer, contentType: String },
-	ingredients: [],
+	ingredientsList: [],
 	cookTimeInMinutes: Number,
 	ovenTempInFahrenheit: Number,
-	direction: String,
+	directions: String,
 	numStars: { type: Number, max: 5, min: 0 },
 	_recipeID: {
 		type: String,
@@ -42,13 +46,32 @@ var recipeSchema = new Schema({
 		}
 	}
 });
+var recipeModel = mongoose.model('Recipe', recipeSchema);
 
 //build routes
 app.get('/', (req, res) => {
 	res.send('Welcome');
 });
+// add a new recipe
 app.get('/addRecipe', (req, res) => {
 	// Handle logic to create a new recipe
+	var name = req.body.name;
+	var image = req.body.image;
+	var ingredients = req.body.ingredients;
+	var time = req.body.cookTime;
+	var temp = req.body.temp;
+	var instructions = req.body.instructions;
+	var stars = req.body.stars;
+	var newRecipe = new recipeModel({
+		name: name,
+		image: image,
+		cookTimeInMinutes: time,
+		ovenTempInFahrenheit: temp,
+		directions: instructions,
+		numStars: stars,
+		ingredientsList: ingredients
+	});
+	newRecipe.save();
 });
 
 // setup server
