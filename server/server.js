@@ -12,6 +12,20 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var Schema = mongoose.Schema;
 
+// Declare Units of Measure
+const units = [
+	'cup',
+	'gram',
+	'kilogram',
+	'liter',
+	'pound',
+	'milliliter',
+	'ounce',
+	'pint',
+	'teaspoon',
+	'tablespoon'
+];
+
 // Build mongoDB schemas and models
 var recipeSchema = new Schema({
 	name: String,
