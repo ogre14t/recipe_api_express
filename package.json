@@ -9,6 +9,7 @@
 	"author": "Owen Watkins",
 	"license": "MIT",
 	"dependencies": {
+		"dotenv": "^8.1.0",
 		"express": "^4.17.1",
 		"mongoose": "^5.6.11",
 		"uuid": "^3.3.3"
