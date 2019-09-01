@@ -1,7 +1,7 @@
 //bring in dependencies
 var express = require('express');
 var mongoose = require('mongoose');
-var uuid = require('node-uuid');
+var uuid = require('uuid/v1');
 require('dotenv').config();
 
 // set up mongodb connection and body-parser
@@ -15,20 +15,20 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var Schema = mongoose.Schema;
 
 // Declare Units of Measure
-const units = [
-	'cup',
-	'gram',
-	'kilogram',
-	'liter',
-	'pound',
-	'milliliter',
-	'ounce',
-	'pint',
-	'teaspoon',
-	'tablespoon'
-];
+const units = {
+	cup: 'cup',
+	gram: 'gram',
+	kilogram: 'kilogram',
+	liter: 'liter',
+	pound: 'pound',
+	milliliter: 'milliliter',
+	ounce: 'ounce',
+	pint: 'pint',
+	teaspoon: 'teaspoon',
+	tablespoon: 'tablespoon'
+};
 // define the layout of an ingredient
-const ingredient = { name: String, qty: Number, unit: String };
+const ingredient = { name: String, qty: Number, unit: typeof units };
 
 // Build mongoDB schemas and models
 var recipeSchema = new Schema({
@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
 	res.send('Welcome');
 });
 // add a new recipe
-app.get('/addRecipe', (req, res) => {
+app.post('/addRecipe', (req, res) => {
 	// Handle logic to create a new recipe
 	var name = req.body.name;
 	var image = req.body.image;
