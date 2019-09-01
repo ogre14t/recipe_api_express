@@ -38,13 +38,7 @@ var recipeSchema = new Schema({
 	cookTimeInMinutes: Number,
 	ovenTempInFahrenheit: Number,
 	directions: String,
-	numStars: { type: Number, max: 5, min: 0 },
-	_recipeID: {
-		type: String,
-		default: function genUUid() {
-			uuid.v1();
-		}
-	}
+	numStars: { type: Number, max: 5, min: 0 }
 });
 var recipeModel = mongoose.model('Recipe', recipeSchema);
 
