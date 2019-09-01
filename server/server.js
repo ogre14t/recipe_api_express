@@ -53,15 +53,17 @@ app.get('/', (req, res) => {
 	res.send('Welcome');
 });
 // add a new recipe
-app.post('/addRecipe', (req, res) => {
+app.post('/api/addRecipe', (req, res) => {
 	// Handle logic to create a new recipe
-	var name = req.body.name;
-	var image = req.body.image;
-	var ingredients = req.body.ingredients;
-	var time = req.body.cookTime;
-	var temp = req.body.temp;
-	var instructions = req.body.instructions;
-	var stars = req.body.stars;
+	const {
+		name,
+		image,
+		ingredients,
+		time,
+		temp,
+		instructions,
+		stars
+	} = req.body;
 	var newRecipe = new recipeModel({
 		name: name,
 		image: image,
@@ -71,7 +73,12 @@ app.post('/addRecipe', (req, res) => {
 		numStars: stars,
 		ingredientsList: ingredients
 	});
-	newRecipe.save();
+	const result = newRecipe.save();
+	console.log(result);
+	res.status(200).json({
+		success: true,
+		msg: 'The recipe ' + name + ' was saved.'
+	});
 });
 
 // setup server
