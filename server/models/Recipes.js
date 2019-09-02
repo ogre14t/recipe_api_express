@@ -21,7 +21,7 @@ const ingredient = { name: String, qty: Number, unit: typeof units };
 var recipeSchema = new Schema({
 	name: String,
 	image: { data: Buffer, contentType: String },
-	ingredients: [],
+	ingredients: { data: [], unit: typeof ingredient },
 	time: Number,
 	temp: Number,
 	instructions: String,
