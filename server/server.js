@@ -3,7 +3,6 @@ var express = require('express');
 require('dotenv').config();
 var Models = require('./models.js');
 
-// set up mongodb connection and body-parser
 var app = express();
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
