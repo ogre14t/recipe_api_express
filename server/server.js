@@ -8,8 +8,10 @@ app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
 
 //build routes
-app.get('/', (req, res) => {
-	res.send('Welcome');
+app.get('/', async (req, res) => {
+	await Models.Recipe.find({}).then(function(recipes) {
+		res.send(recipes);
+	});
 });
 // add a new recipe
 app.post('/api/addRecipe', async (req, res) => {
