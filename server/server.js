@@ -10,6 +10,7 @@ app.use(express.urlencoded()); // to support URL-encoded bodies
 //build routes
 app.get('/', async (req, res) => {
 	await Models.Recipe.find({}).then(function(recipes) {
+		console.log(recipes);
 		res.send(recipes);
 	});
 });
