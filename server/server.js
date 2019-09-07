@@ -42,20 +42,24 @@ app.post('/api/addRecipe', async (req, res) => {
 });
 
 // Delete a recipe
-app.post('/api/deleteRecipe', (rec, res) => {
-	const nameToRemove = rec.params['name'];
-	const result = Models.Recipe.deleteOne({ name: nameToRemove }, function(
-		err
-	) {
-		if (err) {
-			result = 'The Recipe you entered was not found.';
+app.post('/api/deleteRecipe', async (req, res) => {
+	console.log('inputName: ' + req.param('inputName'));
+	const nameToRemove = req.param('inputName');
+	const result = await Models.Recipe.deleteOne(
+		{
+			name: nameToRemove
+		},
+		function(err) {
+			if (err) {
+				result = 'The Recipe you entered was not found.';
+			}
 		}
-	});
+	);
 
 	console.log(result);
 	res.status(200).json({
 		success: true,
-		msg: 'The recipe' + nameToRemove + 'was successfully deleted.'
+		msg: 'The recipe ' + nameToRemove + ' was successfully deleted.'
 	});
 });
 // setup server
