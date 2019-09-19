@@ -1,9 +1,9 @@
 //bring in dependencies
-var express = require('express');
+const express = require('express');
 require('dotenv').config();
-var Models = require('./models.js');
+const Models = require('./models.js');
 
-var app = express();
+const app = express();
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
 
@@ -26,7 +26,7 @@ app.post('/api/addRecipe', async (req, res) => {
 		instructions,
 		stars
 	} = req.body;
-	var newRecipe = new Models.Recipe({
+	const newRecipe = new Models.Recipe({
 		name: name,
 		image: image,
 		time: time,
@@ -48,7 +48,7 @@ app.post('/api/addRecipe', async (req, res) => {
 app.post('/api/deleteRecipe', async (req, res) => {
 	console.log('inputName: ' + req.param('inputName'));
 	const nameToRemove = req.param('inputName');
-	const result = await Models.Recipe.deleteOne(
+	let result = await Models.Recipe.deleteOne(
 		{
 			name: nameToRemove
 		},
@@ -65,9 +65,10 @@ app.post('/api/deleteRecipe', async (req, res) => {
 		msg: 'The recipe ' + nameToRemove + ' was successfully deleted.'
 	});
 });
+
 // setup server
-var server = app.listen(process.env.PORT, function() {
-	var port = server.address().port;
-	var host = server.address().address;
+const server = app.listen(process.env.PORT, function() {
+	const port = server.address().port;
+	const host = server.address().address;
 	console.log('Express running at http://%s:%s', host, port);
 });
